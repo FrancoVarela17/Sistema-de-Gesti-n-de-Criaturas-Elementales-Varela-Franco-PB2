@@ -19,20 +19,20 @@ public class Maestro {
 		this.criaturas = new HashMap<>();
 	}
 
-	public void agregarCriatura(Criatura c) {
-		criaturas.put(c.getNombre(), c);
+	public void agregarCriatura(Criatura criatura) {
+		criaturas.put(criatura.getNombre(), criatura);
 	}
 
 	public void entrenarCriatura(String nombreCriatura) throws FaltaDeMaestriaException {
-		Criatura c = criaturas.get(nombreCriatura);
-		if (c == null)
+		Criatura criatura = criaturas.get(nombreCriatura);
+		if (criatura == null)
 			return;
 
-		if (this.nivelMaestria < 5) { 
-			throw new FaltaDeMaestriaException("El maestro " + this.nombre + " no tiene suficiente nivel.");
+		if (this.nivelMaestria < 10) { 
+			throw new FaltaDeMaestriaException("Maestría insuficiente (" + this.nivelMaestria + "). Se requiere 10.");
 		}
 
-		c.entrenar();
+		criatura.entrenar();
 	}
 
 	public Integer getNivelMaestria() {

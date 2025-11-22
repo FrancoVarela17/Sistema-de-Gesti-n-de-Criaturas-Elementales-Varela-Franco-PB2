@@ -81,6 +81,14 @@ public abstract class Criatura {
 		return false;
 	}
 
+	public EstadoEmocional getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoEmocional estado) {
+		this.estado = estado;
+	}
+
 
 
 }
