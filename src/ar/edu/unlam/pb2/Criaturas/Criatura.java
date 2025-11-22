@@ -64,6 +64,10 @@ public abstract class Criatura {
 		return energia;
 	}
 
+	public void setEnergia(Integer energia) {
+		this.energia = energia;
+	}
+
 	public Afinidad getAfinidad() {
 		return afinidad;
 	}

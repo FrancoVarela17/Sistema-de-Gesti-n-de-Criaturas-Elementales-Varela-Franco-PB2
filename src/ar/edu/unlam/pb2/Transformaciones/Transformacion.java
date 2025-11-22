@@ -31,5 +31,10 @@ public abstract class Transformacion extends Criatura {
 	public Integer getTransformacionesAplicadas() {
 		return this.transformacionesAplicadas;
 	}
+	
+	@Override
+	public Integer getEnergia() { 
+	    return this.criaturaDecorada.getEnergia();
+	}
 
 }

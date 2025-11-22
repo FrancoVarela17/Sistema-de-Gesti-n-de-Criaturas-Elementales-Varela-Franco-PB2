@@ -15,7 +15,9 @@ import ar.edu.unlam.pb2.Gestion.ConsejoElandria;
 import ar.edu.unlam.pb2.Gestion.Maestro;
 import ar.edu.unlam.pb2.Transformaciones.AscensoDelViento;
 import ar.edu.unlam.pb2.Transformaciones.BendicionDelRio;
+import ar.edu.unlam.pb2.Transformaciones.LlamaInterna;
 import ar.edu.unlam.pb2.Transformaciones.Transformacion;
+import ar.edu.unlam.pb2.Transformaciones.VinculoTerrestre;
 import ar.edu.unlam.pb2.core.Afinidad;
 import ar.edu.unlam.pb2.core.EstadoEmocional;
 import ar.edu.unlam.pb2.Criaturas.Criatura;
@@ -98,11 +100,11 @@ public class ElandriaTest {
 	@Test
 	public void queAlInteractuarConAfinidadOpuestaSeProduceDesestabilizacion() {
 
-		Criatura fuego = new CriaturaDomestica("Lava", 100, Afinidad.FUEGO);
+		Criatura fuego = new CriaturaSalvaje("Lava", 100, Afinidad.FUEGO);
 		Criatura agua = new CriaturaSalvaje("Vapor", 80, Afinidad.AGUA);
 
 		fuego.interactuar(agua);
-
+		
 		assertEquals(EstadoEmocional.INESTABLE, fuego.getEstado());
 		assertEquals(EstadoEmocional.INESTABLE, agua.getEstado());
 
@@ -266,5 +268,60 @@ public class ElandriaTest {
 		assertEquals("GolemMistico", criaturaMasDecorada.getNombre());
 		assertEquals(Integer.valueOf(3), ((Transformacion) criaturaMasDecorada).getTransformacionesAplicadas());
 	}
-
+	
+	@Test
+	public void queLlamaInternaDaEnergiaSiLaAfinidadEsFuego() {
+		
+		Criatura dragon = new CriaturaSalvaje("Dragoncito", 100, Afinidad.FUEGO);
+		Criatura conLlama = new LlamaInterna(dragon);
+		
+		conLlama.entrenar();
+		
+		assertEquals(EstadoEmocional.TRANQUILA, conLlama.getEstado());
+		assertEquals(Integer.valueOf(130), conLlama.getEnergia());
+	}
+	
+	@Test
+	public void queLlamaInternaDesestabilizaSiLaAfinidadNoEsFuego() {
+		
+		Criatura sirena = new CriaturaDomestica("Sirenita", 80, Afinidad.AGUA);
+		Criatura conLlama = new LlamaInterna(sirena);
+		
+		conLlama.entrenar();
+		conLlama.desestabilizar();
+		assertEquals(EstadoEmocional.INESTABLE, conLlama.getEstado());
+		assertEquals(Integer.valueOf(80), conLlama.getEnergia());
+	}
+	
+	@Test
+	public void queVinculoTerrestreMantengaLaEnergiaMinimaDe50() {
+		
+		Criatura enano = new CriaturaDomestica("Rocker", 70, Afinidad.TIERRA);
+		Criatura conVinculo = new VinculoTerrestre(enano);
+		
+		conVinculo.modificarEnergia(-10);
+		assertEquals(Integer.valueOf(60), conVinculo.getEnergia());
+		
+		conVinculo.modificarEnergia(-50);
+		
+		assertEquals(Integer.valueOf(50), conVinculo.getEnergia());
+	}
+	
+	@Test
+	public void queVinculoTerrestreNoAjustaEnergiaSiEsIgualOSuperiorA50() {
+		
+		Criatura dragonLimite = new CriaturaDomestica("DragonLimite", 50, Afinidad.TIERRA);
+		Criatura conVinculoLimite = new VinculoTerrestre(dragonLimite);
+		
+		conVinculoLimite.modificarEnergia(0);
+		assertEquals(Integer.valueOf(50), conVinculoLimite.getEnergia());
+		
+		Criatura dragonSuperior = new CriaturaDomestica("DragonSuperior", 70, Afinidad.TIERRA);
+		Criatura conVinculoSuperior = new VinculoTerrestre(dragonSuperior);
+		
+		conVinculoSuperior.modificarEnergia(-5);
+		assertEquals(Integer.valueOf(65), conVinculoSuperior.getEnergia());
+	}
+	
 }
+
