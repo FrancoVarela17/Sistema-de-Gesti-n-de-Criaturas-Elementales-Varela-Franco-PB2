@@ -2,3 +2,6 @@
 Este proyecto es un sistema en Java para gestionar criaturas elementales. 
 Permite registrar, consultar y organizar criaturas según sus características, habilidades y elementos. 
 Incluye pruebas unitarias y sigue principios de Programación Orientada a Objetos (OOP).
+
+- src/: código fuente del proyecto
+- test/: pruebas unitarias
